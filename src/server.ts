@@ -1,28 +1,33 @@
-import express, { Request, Response, NextFunction } from "express";
-import dotenv from "dotenv";
+// src/app.ts
+import express, { Request, Response } from 'express';
+import path from 'path';
 
-// Load environment variables
-dotenv.config();
+// Import Routes
+import homeRoutes from './routes/home';
+import authRoutes from './routes/auth';
+import articlesRoutes from './routes/articles';
+import adminRoutes from './routes/admin';
 
+// Create an Express app
 const app = express();
+
+// Set view engine to EJS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Use routes
+app.use('/homes', homeRoutes);
+app.use('/auth', authRoutes);
+app.use('/articles', articlesRoutes);
+app.use('/admin', adminRoutes);
+
+// Define a basic route
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello World from TypeScript!');
+});
+
+// Start server
 const PORT = process.env.PORT || 3000;
-
-// Middleware
-app.use(express.json()); // Parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
-
-// Basic route
-app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to the News Web Application!");
-});
-
-// Error handling middleware
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
-  res.status(500).send("Something went wrong!");
-});
-
-// Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
