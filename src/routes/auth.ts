@@ -1,17 +1,14 @@
-// src/routes/auth.ts
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import { login, logout , validateLogin } from '../controllers/userController';
 
 const router = Router();
-
-// Login route
-router.get('/login', (req: Request, res: Response) => {
-  res.render('login', { title: 'Admin Login' });
+// Route to render the login page using EJS
+router.get('/', (req, res) => {
+    res.render('login'); // Assuming you have a 'login.ejs' view
 });
 
-// Login POST (handle login form submission)
-router.post('/login', (req: Request, res: Response) => {
-  // Handle login logic here
-  res.redirect('/admin');
-});
-
+// Add validation middleware and login handler
+router.post('/login', validateLogin, login);
+// Handle logout
+router.get('/logout', logout); // Logout route
 export default router;

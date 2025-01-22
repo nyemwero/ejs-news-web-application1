@@ -6,11 +6,10 @@ dotenv.config();
 
 // Create a new pool instance using the environment variables
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: Number(process.env.DB_PORT),
+  connectionString: process.env.DATABASE_URL, // Use the single connection string for Render
+  ssl: {
+    rejectUnauthorized: false, // Required for Render's managed PostgreSQL
+  },
 });
 
 export default pool;

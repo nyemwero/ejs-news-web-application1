@@ -1,16 +1,12 @@
-// src/routes/admin.ts
-import { Router, Request, Response } from 'express';
+import express from 'express';
+import { authenticateJWT } from '../middlewares/authMiddleware'; // Import your authentication middleware
 
-const router = Router();
+const router = express.Router();
 
-// Admin dashboard route
-router.get('/', (req: Request, res: Response) => {
-  res.render('admin-dashboard', { title: 'Admin Dashboard' });
-});
-
-// Admin: Create Article route
-router.get('/create', (req: Request, res: Response) => {
-  res.render('create-article', { title: 'Create New Article' });
+// Protect the /admin route with authentication middleware
+router.get('/', authenticateJWT, (req, res) => {
+  res.render('admin-dashboard'); // Render the admin page if the user is authenticated
 });
 
 export default router;
+
