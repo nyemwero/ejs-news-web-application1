@@ -1,12 +1,14 @@
+// src/routes/adminRouter.ts
 import express from 'express';
-import { authenticateJWT } from '../middlewares/authMiddleware'; // Import your authentication middleware
+import * as ArticleController from '../controllers/articleController';
+import { authenticateJWT } from '../middlewares/authMiddleware';
 
 const router = express.Router();
 
 // Protect the /admin route with authentication middleware
-router.get('/', authenticateJWT, (req, res) => {
-  res.render('admin-dashboard'); // Render the admin page if the user is authenticated
-});
+router.get('/', authenticateJWT, ArticleController.getAllArticles);
+router.post('/articles/create', authenticateJWT, ArticleController.createNewArticle);
+router.put('/articles/update/:id', authenticateJWT, ArticleController.updateArticleById);
+router.delete('/articles/delete/:id', authenticateJWT, ArticleController.deleteArticleById);
 
 export default router;
-

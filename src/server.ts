@@ -49,7 +49,6 @@ app.use(
 app.use('/home', homeRoutes);
 app.use('/auth', authRoutes);
 
-app.use('/articles', articlesRoutes);
 app.use('/admin', adminRoutes);
 
 
