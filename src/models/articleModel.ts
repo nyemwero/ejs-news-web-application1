@@ -60,11 +60,11 @@ export const updateArticle = async (
   title: string,
   content: string,
   image: string | null,
-  tags: string[]
+  tags: string[]=["random"]
 ): Promise<Article> => {
   try {
     const query = 'UPDATE articles SET title = $1, content = $2, image = $3, tags = $4 WHERE id = $5 RETURNING *';
-    const values = [title, content, image, tags.join(','), id];
+    const values = [title, content, image, tags, id];
     const result = await pool.query(query, values);
     return result.rows[0]; // return the updated article
   } catch (error) {

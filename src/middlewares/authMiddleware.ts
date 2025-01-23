@@ -27,3 +27,26 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
     return res.redirect('/auth'); // If the token is invalid, redirect to the login page
   }
 };
+export const addAuthToLocals = (req: Request, res: Response, next: NextFunction) => {
+    // Set a local variable that can be accessed in all views
+    res.locals.isAuthenticated = checkAuthentication;
+    next();
+  };
+// Function to check if the user is authenticated
+export const checkAuthentication = (req: Request): boolean => {
+    const tokenFromHeader = req.header('Authorization')?.replace('Bearer ', '');
+    const tokenFromCookie = req.cookies.token;
+    const token = tokenFromHeader || tokenFromCookie;
+  
+    if (!token) {
+      return false; // No token, not authenticated
+    }
+  
+    try {
+      // Verifying the token from the request
+      jwt.verify(token, process.env.JWT_SECRET_KEY || 'e8c4f6d4d7f8f4a7b8c2e7d6f1b5d9e4f7a2c6b8e9d8a7e6c4f0d9e7f8b6a5');
+      return true; // Token is valid, authenticated
+    } catch (error) {
+      return false; // Invalid token, not authenticated
+    }
+  };
