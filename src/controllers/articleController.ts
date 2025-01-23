@@ -13,7 +13,7 @@ export const getAllArticles = async (req: Request, res: Response): Promise<void>
 export const AdmingetAllArticles = async (req: Request, res: Response): Promise<void> => {
     try {
       const articles = await ArticleModel.fetchAllArticles();
-      res.render('admin', { articles });
+      res.render('admin', { articles, tinymceApiKey: process.env.TINYMCE_API_KEY  },);
     } catch (error) {
       res.status(500).send('Error fetching articles');
     }
@@ -35,7 +35,7 @@ export const createNewArticle = async (req: Request, res: Response): Promise<voi
     console.log('Request Body:', req.body); // Log the request body
     try {
       const newArticle = await ArticleModel.createArticle(title, content, image, normalizedTags);
-      res.redirect('/admin'); // Redirect to the admin dashboard after creating the article
+      res.redirect('/admin',); // Redirect to the admin dashboard after creating the article
     } catch (error) {
       res.status(500).send('Error creating article');
     }

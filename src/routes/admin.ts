@@ -11,6 +11,8 @@ router.get('/', authenticateJWT, ArticleController.AdmingetAllArticles);
 router.post('/articles/create', authenticateJWT,upload.single('image'), ArticleController.createNewArticle);
 router.put('/articles/update/:id', authenticateJWT,upload.single('image'), ArticleController.updateArticleById);
 router.delete('/articles/delete/:id', authenticateJWT, ArticleController.deleteArticleById);
+// In your route handler
+
 
 
 export default router;

@@ -44,37 +44,52 @@
   </header>
 
   <main class="container mt-5">
-    <div class="row">
-      <% articles.forEach(article => { %>
-        <div class="col-12 mb-5">
-          <div class="card">
-            <!-- Title -->
-            <div class="card-header text-center">
-              <h2 class="card-title font-weight-bold"><%= article.title %></h2>
-            </div>
-  
-            <!-- Image -->
-            <% if (article.image) { %>
-              <div class="card-body d-flex justify-content-center">
-                <img src="<%= article.image %>" class="img-fluid" alt="<%= article.title %>" style="max-width: 100%; height: auto;">
-              </div>
-            <% } %>
-  
-            <!-- Content -->
-            <div class="card-body">
-              <p class="card-text text-center"><%= article.content %></p>
-            </div>
-  
-            <!-- Tags -->
-            <div class="card-footer text-center">
-              <% if (article.tags) { %>
-                <span class="badge bg-primary"><%= article.tags.join(', ') %></span>
-              <% } %>
-            </div>
-          </div>
-        </div>
-      <% }); %>
-    </div>
+<!-- Articles List -->
+<div class="card">
+  <div class="card-header">
+      <h3>All Articles</h3>
+  </div>
+  <div class="card-body">
+      <div class="table-responsive">
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th>Title</th>
+                      <th>Image</th>
+                      <th>Tags</th>
+                      <th>Created At</th>
+                      <th>Updated At</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <% articles.forEach(article => { %>
+                      <tr>
+                        <td onclick="window.location.href='/articles/<%= article.id %>'" style="cursor: pointer;">
+                          <%= article.title %>
+                        </td>
+                          <td><%= article.title %></td>
+                          <td>
+                              <% if (article.image) { %>
+                                  <img src="<%= article.image %>" alt="Article image" style="max-width: 50px;">
+                              <% } %>
+                          </td>
+                          <td>
+                              <% article.tags.forEach(tag => { %>
+                                  <span class="badge bg-secondary"><%= tag %></span>
+                              <% }) %>
+                          </td>
+                          <td><%= new Date(article.created_at).toLocaleDateString() %></td>
+                          <td><%= new Date(article.updated_at).toLocaleDateString() %></td>
+
+                      </tr>
+                  <% }) %>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+
+
   </main>
   
   <!-- Optional custom CSS for enhanced styling -->

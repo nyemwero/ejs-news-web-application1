@@ -1,0 +1,240 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="/styles/main.css"> <!-- Adjust the path to your CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.tiny.cloud/1/<%= tinymceApiKey %>/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="/">My Blog</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <% if (isAuthenticated) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">Admin</a>
+                        </li>
+                        <% } %>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        <% if (isAuthenticated) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth/logout">Logout</a>
+                        </li>
+                        <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth/login">Login</a>
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+      </header>
+    
+    <div class="container ] ">
+        <h1 class="mb-4">Articles Dashboard</h1>
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="createArticleModal" tabindex="-1" aria-labelledby="createArticleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createArticleModalLabel">Create New Article</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/admin/articles/create" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="mb-3">
+              <label for="image" class="form-label">Image</label>
+              <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            </div>
+            <div class="mb-3">
+              <label for="content" class="form-label">Content</label>
+              <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="tags" class="form-label">Tags</label>
+              <input type="text" class="form-control" id="tags" name="tags" data-role="tagsinput">
+              <small class="text-muted">Press enter to add tags</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Article</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+ <!-- Edit Modal for each article -->
+ <div class="modal fade" id="editModal<%= article.id %>" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Article</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/admin/articles/update/<%= article.id %>?_method=PUT" 
+                      method="POST" 
+                      enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="editTitle<%= article.id %>" class="form-label">Title</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="editTitle<%= article.id %>" 
+                               name="title" 
+                               value="<%= article.title %>" 
+                               required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editImage<%= article.id %>" class="form-label">Image</label>
+                        <input type="file" 
+                               class="form-control" 
+                               id="editImage<%= article.id %>" 
+                               name="image" 
+                               accept="image/*">
+                        <% if (article.image) { %>
+                            <img src="<%= article.image %>" 
+                                 alt="Current image" 
+                                 class="mt-2" 
+                                 style="max-width: 100px;">
+                        <% } %>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editContent<%= article.id %>" class="form-label">Content</label>
+                        <textarea class="form-control tinymce-editor" 
+                                  id="editContent<%= article.id %>" 
+                                  name="content" 
+                                  rows="4" 
+                                  required><%= article.content %></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTags<%= article.id %>" class="form-label">Tags</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="editTags<%= article.id %>" 
+                               name="tags" 
+                               data-role="tagsinput" 
+                               value="<%= article.tags.join(',') %>">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+  <!-- Bootstrap JS (optional, if not already included) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+  
+
+        <!-- Articles List -->
+        <div class="card ">
+            <div class="card-header">All Articles</div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Image</th>
+                            <th>Tags</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% articles.forEach(article => { %>
+                        <tr>
+                            <td><%= article.title %></td>
+                            <td>
+                                <% if (article.image) { %>
+                                    <img src="<%= article.image %>" alt="Image" style="max-width: 50px;">
+                                <% } %>
+                            </td>
+                            <td>
+                                <% article.tags.forEach(tag => { %>
+                                    <span class="badge bg-secondary"><%= tag %></span>
+                                <% }) %>
+                            </td>
+                            <td>
+                                <form action="/admin/articles/delete/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                                
+                                <button type="button" class="btn btn-sm btn-primary" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#editModal<%= article.id %>">
+                                    Edit
+                                </button>
+                                      
+                                
+                            </td>
+   
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Button to trigger modal -->
+            
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center">
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createArticleModal">
+                Create New Article
+            </button>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+    <script>
+        tinymce.init({
+          selector: '#content', // Target the textarea by ID
+          plugins: 'lists link image table code',
+          toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | link image | code',
+          height: 300,
+          menubar: false // Optional: Hide the menubar for a cleaner interface
+        });
+      </script>
+<script>
+    // Initialize TinyMCE for the specific textarea
+    tinymce.init({
+        selector: '.tinymce-editor', // Target the specific textarea
+        menubar: false, // Disable menu bar (optional)
+        plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'code'],
+        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | code', // Customize toolbar
+        height: 300 // Set height of the editor
+    });
+</script>
+      
+</body>
+</html>
+

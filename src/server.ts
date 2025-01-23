@@ -13,6 +13,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import expressLayouts from 'express-ejs-layouts'; // Import the layouts package'
 import { addAuthToLocals } from './middlewares/authMiddleware';
+import * as ArticleModel from './models/articleModel';
 
 
 
@@ -56,7 +57,10 @@ app.use('/public', express.static('public'));
 
 // Define a basic route
 app.get('/',  homeRoutes);
-
+app.get('/articles/:id', async (req, res) => {
+  const article = await ArticleModel.fetchArticleById(parseInt(req.params.id));
+  res.render('articleDetail', { article });
+});
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

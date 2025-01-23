@@ -9,4 +9,6 @@ router.get('/', ArticleController.getAllArticles, (req: Request, res: Response) 
   res.render('home', { title: 'Home Page'});
 });
 
+
+
 export default router;

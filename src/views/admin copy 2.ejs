@@ -50,7 +50,39 @@
         <h1 class="mb-4">Articles Dashboard</h1>
 
 
-
+   <!-- Modal -->
+   <div class="modal fade" id="createArticleModal" tabindex="-1" aria-labelledby="createArticleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createArticleModalLabel">Create New Article</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/admin/articles/create" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="mb-3">
+              <label for="image" class="form-label">Image</label>
+              <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            </div>
+            <div class="mb-3">
+              <label for="content" class="form-label">Content</label>
+              <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="tags" class="form-label">Tags</label>
+              <input type="text" class="form-control" id="tags" name="tags" data-role="tagsinput">
+              <small class="text-muted">Press enter to add tags</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
         <!-- Articles List -->
@@ -170,59 +202,27 @@
         </div>
     </div>
 
-
-
     <div class="d-flex justify-content-center align-items-center">
         <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createArticleModal">
             Create New Article
         </button>
     </div>
 
-       <!-- Modal -->
-   <div class="modal fade" id="createArticleModal" tabindex="-1" >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createArticleModalLabel">Create New Article</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="/admin/articles/create" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-              <label for="title" class="form-label">Title</label>
-              <input type="text" class="form-control" id="title" name="title" required>
-            </div>
-            <div class="mb-3">
-              <label for="image" class="form-label">Image</label>
-              <input type="file" class="form-control" id="image" name="image" accept="image/*">
-            </div>
-            <div class="mb-3">
-                <label for="content" class="form-label">Content</label>
-                <textarea class="form-control" 
-                          id="content" 
-                          name="content" 
-                          rows="4" 
-                          ></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="tags" class="form-label">Tags</label>
-              <input type="text" class="form-control" id="tags" name="tags" data-role="tagsinput">
-              <small class="text-muted">Press enter to add tags</small>
-            </div>
-            <button type="submit" class="btn btn-primary">Create</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
-   
+    <script>
+        tinymce.init({
+          selector: '#content', // Target the textarea by ID
+          plugins: 'lists link image table code',
+          toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | link image | code',
+          height: 300,
+          menubar: false // Optional: Hide the menubar for a cleaner interface
+        });
+      </script>
           <script>
             tinymce.init({
-              selector: '#content, #editContent', // Target the textarea by ID
+              selector: '#editContent', // Target the textarea by ID
               plugins: 'lists link image table code',
               toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | link image | code',
               height: 300,
