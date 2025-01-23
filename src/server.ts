@@ -7,8 +7,6 @@ import path from 'path';
 // Import Routes
 import homeRoutes from './routes/home';
 import authRoutes from './routes/auth';
-
-import articlesRoutes from './routes/articles';
 import adminRoutes from './routes/admin';
 import session from 'express-session';
 import bodyParser from 'body-parser';
@@ -48,8 +46,8 @@ app.use(
 // Use routes
 app.use('/home', homeRoutes);
 app.use('/auth', authRoutes);
-
 app.use('/admin', adminRoutes);
+app.use('/public', express.static('public'));
 
 
 // Define a basic route

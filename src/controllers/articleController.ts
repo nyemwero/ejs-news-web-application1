@@ -15,10 +15,16 @@ export const getAllArticles = async (req: Request, res: Response): Promise<void>
 export const createNewArticle = async (req: Request, res: Response): Promise<void> => {
     const { title, content, tags } = req.body;
     const image = req.file ? req.file.path : null;
-  
+    console.log(image);
     // Ensure that tags is always an array, even if empty
-    const normalizedTags = Array.isArray(tags) ? tags : [];
-    console.log(req.body)
+    const normalizedTags = tags 
+    ? (Array.isArray(tags) 
+        ? tags 
+        : typeof tags === 'string' 
+            ? tags.split(',').map(tag => tag.trim()) 
+            : [])
+    : [];
+    console.log('Request Body:', req.body); // Log the request body
     try {
       const newArticle = await ArticleModel.createArticle(title, content, image, normalizedTags);
       res.redirect('/admin'); // Redirect to the admin dashboard after creating the article

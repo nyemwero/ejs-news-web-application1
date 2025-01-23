@@ -39,12 +39,13 @@ export const createArticle = async (
     title: string,
     content: string,
     image: string | null,
-    tags: string[] = [] // Default to an empty array if tags are not provided
+    tags: string[] = ["random"] // Default to an empty array if tags are not provided
   ): Promise<Article> => {
     try {
+        console.log(tags)
       // Ensure that tags is always an array
       const query = 'INSERT INTO articles(title, content, image, tags) VALUES($1, $2, $3, $4) RETURNING *';
-      const values = [title, content, image, tags.length > 0 ? tags.join(',') : '']; // Handle empty tags
+      const values = [title, content, image, tags]; // Handle empty tags
       const result = await pool.query(query, values);
       return result.rows[0]; // return the created article
     } catch (error) {
