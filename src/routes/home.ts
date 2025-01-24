@@ -16,8 +16,6 @@ router.get('/search', async (req: Request, res: Response) => {
     // Fetch all articles
     const articles = await Article.fetchAllArticles();
 
-
-
     // Call the filterArticles method with the query
     const filteredArticles = ArticleController.filterArticles(req, articles);
 
