@@ -11,7 +11,7 @@
         "./types"
         ]
     },
-    "include": ["src/types/**/*.d.ts","src/**/*.ts","src/**/*","src/views/*"],
+    "include": ["src/types/**/*.d.ts","src/**/*.ts","src/**/*","src/views/*","src/views/**/*"],
     "exclude": ["node_modules"]
   }
   
