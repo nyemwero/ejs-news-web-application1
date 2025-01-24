@@ -69,12 +69,20 @@
     }
 
     .article-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;  /* Centers content vertically */
-    height: 80vh;  /* Full viewport height */
-    padding: 0 20px;  /* Optional: adds some horizontal padding */
+  display: flex;
+  flex-direction: column;
+  height: 80vh;  /* Full viewport height */
+  padding: 20px;  /* Adds padding around the content */
+  padding-top: 0;  /* Ensures no extra space is added above the title */
+  overflow-y: auto;  /* Allows scrolling if content overflows vertically */
 }
+
+.article-title {
+  margin-top: 0;  /* Ensures the title is aligned at the top of the container */
+  padding-top: 0;  /* Ensures no extra padding is added to the title */
+}
+
+
 
 
     .next-button {
@@ -103,13 +111,6 @@
               <a class="nav-link" href="/admin">Admin</a>
             </li>
             <% } %>
-            <li>
-                <!-- Search Form -->
-                <form action="/search" method="GET" class="search-form">
-                  <input type="text" name="query" placeholder="Search..." required>
-                  <button type="submit">Search</button>
-                </form>
-              </li>
           </ul>
           
           <ul class="navbar-nav ms-auto">

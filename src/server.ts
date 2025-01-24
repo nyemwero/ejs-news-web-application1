@@ -59,10 +59,9 @@ app.use('/public', express.static('public'));
 
 // Define a basic route
 app.get('/',  homeRoutes);
-app.get('/article/:id', async (req, res) => {
-  const article = await ArticleModel.fetchArticleById(parseInt(req.params.id));
-  res.render('articleDetail', { article });
-});
+// Search Route
+
+
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

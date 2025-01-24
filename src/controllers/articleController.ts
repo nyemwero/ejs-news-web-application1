@@ -158,3 +158,22 @@ export const getArticleById = async (req: Request, res: Response): Promise<void>
   }
 };
 
+// Assuming the function is within an Express.js handler
+export const filterArticles = (req: any, articles: any[]): any[] => {
+  // Extract the query from the request query parameters
+  const query = req.query.query;
+
+  // Check if query exists and filter the articles
+  if (!query) {
+    return articles; // If no query, return all articles
+  }
+
+  return articles.filter((article) => {
+    const titleMatch = article.title.toLowerCase().includes(query.toLowerCase());
+    const tagsMatch = article.tags.some((tag: string) => tag.toLowerCase().includes(query.toLowerCase()));
+    return titleMatch || tagsMatch;
+  });
+};
+
+
+
