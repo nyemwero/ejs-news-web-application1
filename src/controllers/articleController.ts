@@ -116,3 +116,45 @@ export const deleteArticleById = async (req: Request, res: Response): Promise<vo
     res.status(500).send('Error deleting article');
   }
 };
+
+
+// src/controllers/articleController.ts
+export const getArticleById = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+
+  try {
+    // Fetch all articles to get their IDs in order
+    const articles = await ArticleModel.fetchAllArticles();
+    const currentArticleIndex = articles.findIndex(article => article.id === Number(id));
+    
+    if (currentArticleIndex === -1) {
+      res.status(404).send('Article not found');
+      return;
+    }
+
+    // Get the previous and next article IDs
+    const previousId = currentArticleIndex > 0 ? articles[currentArticleIndex - 1].id : null;
+    const nextId = currentArticleIndex < articles.length - 1 ? articles[currentArticleIndex + 1].id : null;
+
+    // Fetch the current article by its ID
+    const article = await ArticleModel.fetchArticleById(Number(id));
+
+    if (!article) {
+      res.status(404).send('Article not found');
+      return;
+    }
+    console.log(previousId);
+    console.log(nextId);
+    console.log(id)
+    // Render the article detail page and pass the article data along with next and previous IDs
+    res.render('articleDetail', { 
+      article,
+      previousId,
+      nextId
+    });
+  } catch (error) {
+    console.error('Error fetching article:', error);
+    res.status(500).send('Error fetching article');
+  }
+};
+

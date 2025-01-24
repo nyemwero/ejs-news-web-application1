@@ -8,6 +8,7 @@ import path from 'path';
 import homeRoutes from './routes/home';
 import authRoutes from './routes/auth';
 import adminRoutes from './routes/admin';
+import articleRoutes from './routes/article';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -52,12 +53,13 @@ app.use(
 app.use('/home', homeRoutes);
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
+app.use('/article', articleRoutes);
 app.use('/public', express.static('public'));
 
 
 // Define a basic route
 app.get('/',  homeRoutes);
-app.get('/articles/:id', async (req, res) => {
+app.get('/article/:id', async (req, res) => {
   const article = await ArticleModel.fetchArticleById(parseInt(req.params.id));
   res.render('articleDetail', { article });
 });

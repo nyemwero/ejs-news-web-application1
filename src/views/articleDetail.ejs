@@ -95,12 +95,23 @@
             <li class="nav-item">
               <a class="nav-link" href="/">Home</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/article">Articles</a>
+            </li>
             <% if (isAuthenticated) { %>
             <li class="nav-item">
               <a class="nav-link" href="/admin">Admin</a>
             </li>
             <% } %>
+            <li>
+                <!-- Search Form -->
+                <form action="/search" method="GET" class="search-form">
+                  <input type="text" name="query" placeholder="Search..." required>
+                  <button type="submit">Search</button>
+                </form>
+              </li>
           </ul>
+          
           <ul class="navbar-nav ms-auto">
             <% if (isAuthenticated) { %>
             <li class="nav-item">
@@ -133,9 +144,15 @@
     </div>
   </div>
 
-  <!-- Floating Buttons for Next and Previous Articles -->
-  <button class="floating-button previous-button" onclick="window.location.href='/articles/<%= article.previousId %>'">←</button>
-  <button class="floating-button next-button" onclick="window.location.href='/articles/<%= article.nextId %>'">→</button>
+<!-- Floating Buttons for Next and Previous Articles -->
+<% if (previousId) { %>
+    <button class="floating-button previous-button" onclick="window.location.href='/article/<%= previousId %>'">←</button>
+  <% } %>
+  <% if (nextId) { %>
+    <button class="floating-button next-button" onclick="window.location.href='/article/<%= nextId %>'">→</button>
+  <% } %>
+  
+  
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
