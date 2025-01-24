@@ -18,7 +18,7 @@ A scalable news platform built with Node.js, Express, TypeScript, and PostgreSQL
 - **Backend:** Node.js, Express.js, TypeScript
 - **Frontend:** EJS, Bootstrap
 - **Database:** PostgreSQL
-- **Authentication:** Session-based
+- **Authentication:** Token Based
 - **Other Tools:** WYSIWYG Editor
 
 ## 📋 Prerequisites
@@ -31,7 +31,7 @@ A scalable news platform built with Node.js, Express, TypeScript, and PostgreSQL
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/news-web-app.git
+git clone https://github.com/mswger001/news-web-app.git
 cd news-web-app
 ```
 
@@ -163,5 +163,5 @@ news-web-app/
 
 ## 📧 Contact
 
-Your Name - 
+Your Name - Gerald Maswoswere
 Project Link:
